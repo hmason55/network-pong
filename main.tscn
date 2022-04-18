@@ -1,0 +1,142 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://separator.png" type="Texture" id=5]
+[ext_resource path="res://Logic/Wall.cs" type="Script" id=6]
+[ext_resource path="res://Logic/CeilingFloor.cs" type="Script" id=7]
+[ext_resource path="res://Logic/UI/Menu.cs" type="Script" id=8]
+
+[sub_resource type="RectangleShape2D" id=3]
+extents = Vector2( 10, 200 )
+
+[sub_resource type="RectangleShape2D" id=4]
+extents = Vector2( 320, 10 )
+
+[node name="Main" type="Node2D"]
+
+[node name="Network Manager" type="Control" parent="."]
+margin_right = 40.0
+margin_bottom = 40.0
+
+[node name="Table" type="Control" parent="."]
+visible = false
+margin_right = 40.0
+margin_bottom = 40.0
+
+[node name="Background" type="ColorRect" parent="Table"]
+margin_right = 640.0
+margin_bottom = 400.0
+color = Color( 0.141176, 0.152941, 0.164706, 1 )
+
+[node name="Separator" type="Sprite" parent="Table"]
+position = Vector2( 320, 200 )
+texture = ExtResource( 5 )
+
+[node name="LeftWall" type="Area2D" parent="Table"]
+position = Vector2( -10, 200 )
+script = ExtResource( 6 )
+
+[node name="Collision" type="CollisionShape2D" parent="Table/LeftWall"]
+shape = SubResource( 3 )
+
+[node name="RightWall" type="Area2D" parent="Table"]
+position = Vector2( 650, 200 )
+script = ExtResource( 6 )
+
+[node name="Collision" type="CollisionShape2D" parent="Table/RightWall"]
+shape = SubResource( 3 )
+
+[node name="Ceiling" type="Area2D" parent="Table"]
+position = Vector2( 320, -10 )
+script = ExtResource( 7 )
+
+[node name="Collision" type="CollisionShape2D" parent="Table/Ceiling"]
+shape = SubResource( 4 )
+
+[node name="Floor" type="Area2D" parent="Table"]
+position = Vector2( 320, 410 )
+script = ExtResource( 7 )
+_bounceDirection = -1
+
+[node name="Collision" type="CollisionShape2D" parent="Table/Floor"]
+shape = SubResource( 4 )
+
+[node name="Menu" type="Control" parent="."]
+margin_left = 1.0
+margin_top = 1.0
+margin_right = 641.0
+margin_bottom = 401.0
+script = ExtResource( 8 )
+
+[node name="Center Container" type="CenterContainer" parent="Menu"]
+margin_right = 640.0
+margin_bottom = 400.0
+rect_min_size = Vector2( 96, 0 )
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="ColorRect" type="ColorRect" parent="Menu/Center Container"]
+margin_left = 320.0
+margin_top = 200.0
+margin_right = 320.0
+margin_bottom = 200.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+color = Color( 0, 0, 0, 0.0941176 )
+
+[node name="Grid Container" type="GridContainer" parent="Menu/Center Container"]
+margin_left = 291.0
+margin_top = 124.0
+margin_right = 349.0
+margin_bottom = 276.0
+
+[node name="Address" type="LineEdit" parent="Menu/Center Container/Grid Container"]
+margin_right = 58.0
+margin_bottom = 24.0
+text = "127.0.0.1"
+max_length = 16
+placeholder_text = "Address"
+
+[node name="Port" type="LineEdit" parent="Menu/Center Container/Grid Container"]
+margin_top = 28.0
+margin_right = 58.0
+margin_bottom = 52.0
+text = "50001"
+max_length = 16
+placeholder_text = "Port"
+
+[node name="Username" type="LineEdit" parent="Menu/Center Container/Grid Container"]
+margin_top = 56.0
+margin_right = 58.0
+margin_bottom = 80.0
+max_length = 16
+placeholder_text = "Username"
+
+[node name="Host Button" type="Button" parent="Menu/Center Container/Grid Container"]
+margin_top = 84.0
+margin_right = 58.0
+margin_bottom = 104.0
+text = "Host"
+
+[node name="Join Button" type="Button" parent="Menu/Center Container/Grid Container"]
+margin_top = 108.0
+margin_right = 58.0
+margin_bottom = 128.0
+text = "Join"
+
+[node name="Quit Button" type="Button" parent="Menu/Center Container/Grid Container"]
+margin_top = 132.0
+margin_right = 58.0
+margin_bottom = 152.0
+text = "Quit"
+
+[node name="FPS" type="Label" parent="."]
+margin_right = 40.0
+margin_bottom = 14.0
+
+[connection signal="area_entered" from="Table/LeftWall" to="Table/LeftWall" method="OnWallAreaEntered"]
+[connection signal="area_entered" from="Table/RightWall" to="Table/RightWall" method="OnWallAreaEntered"]
+[connection signal="area_entered" from="Table/Ceiling" to="Table/Ceiling" method="OnAreaEntered"]
+[connection signal="area_entered" from="Table/Floor" to="Table/Floor" method="OnAreaEntered"]
+[connection signal="pressed" from="Menu/Center Container/Grid Container/Host Button" to="Menu" method="OnHost"]
+[connection signal="pressed" from="Menu/Center Container/Grid Container/Join Button" to="Menu" method="OnJoin"]
+[connection signal="pressed" from="Menu/Center Container/Grid Container/Quit Button" to="Menu" method="OnQuit"]

@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "Pong with C#": {
+      "commandName": "Project",
+      "commandLineArgs": "-e --path C:\\Users\\hmaso\\OneDrive\\Documents\\Godot\\Pong"
+    }
+  }
+}
